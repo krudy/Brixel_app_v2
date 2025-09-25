@@ -13,5 +13,8 @@ app.get('/', function (req, res) {
     res.send('Hello World')
   })
 
+//mount routes
+app.use('/api', require('./routes/api'));
+
 app.listen(port);
 console.log(`server listening on port ${port}`);
