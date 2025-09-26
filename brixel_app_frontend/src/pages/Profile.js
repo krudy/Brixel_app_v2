@@ -6,7 +6,7 @@ function Profile() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/profile", {
+    fetch("http://localhost:9999/api/profile", {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())
