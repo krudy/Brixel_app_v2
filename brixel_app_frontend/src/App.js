@@ -5,27 +5,31 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import PrivateRoute from "./components/PrivateRoute";
+import Header from "./components/Header/Header";
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <Menu />
-        <Routes>
-          <Route path="/" element={<h1>Home Page</h1>} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route
-            path="/profile"
-            element={
-              <PrivateRoute>
-                <Profile />
-              </PrivateRoute>
-            }
-          />
-        </Routes>
-      </Router>
-    </AuthProvider>
+    <div className="App container">
+      <Header></Header>
+      <AuthProvider>
+        <Router>
+          <Menu />
+          <Routes>
+            <Route path="/" element={<h1>Home Page</h1>} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route
+              path="/profile"
+              element={
+                <PrivateRoute>
+                  <Profile />
+                </PrivateRoute>
+              }
+            />
+          </Routes>
+        </Router>
+      </AuthProvider>
+    </div>
   );
 }
 

@@ -1,38 +1,68 @@
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import styles from "./Menu.module.css";
 
 function Menu() {
   const { token, logout } = useContext(AuthContext);
 
   return (
-    <div className={`${styles.menuContainer} container`}>
-      <ul className={styles.menu}>
-        <li className={styles.menuItem}>
-          <Link to="/">Home</Link>
-        </li>
-        {!token ? (
-          <>
-            <li className={styles.menuItem}>
-              <Link to="/login">Login</Link>
+    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <div className="container">
+        <Link className="navbar-brand" to="/">
+          BrixelApp
+        </Link>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+
+        <div className="collapse navbar-collapse" id="navbarNav">
+          <ul className="navbar-nav ms-auto">
+            
+            <li className="nav-item">
+              <Link className="nav-link" to="/">
+                Home
+              </Link>
             </li>
-            <li className={styles.menuItem}>
-              <Link to="/register">Register</Link>
-            </li>
-          </>
-        ) : (
-          <>
-            <li className={styles.menuItem}>
-              <Link to="/profile">Profile</Link>
-            </li>
-            <li className={styles.menuItem}>
-              <button onClick={logout}>Logout</button>
-            </li>
-          </>
-        )}
-      </ul>
-    </div>
+
+            {!token ? (
+              <>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/login">
+                    Login
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/register">
+                    Register
+                  </Link>
+                </li>
+              </>
+            ) : (
+              <>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/profile">
+                    Profile
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <button className="btn btn-link nav-link" onClick={logout}>
+                    Logout
+                  </button>
+                </li>
+              </>
+            )}
+          </ul>
+        </div>
+      </div>
+    </nav>
   );
 }
 
