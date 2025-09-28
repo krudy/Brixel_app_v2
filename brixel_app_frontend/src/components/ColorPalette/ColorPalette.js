@@ -1,4 +1,5 @@
-function ColorPalette({ colors, onChange }) {
+
+function ColorPalette({ colors, selectedColors, onChange }) {
   const handleChange = (e, color) => {
     if (e.target.checked) {
       onChange((prev) => [...prev, color]);
@@ -7,33 +8,58 @@ function ColorPalette({ colors, onChange }) {
     }
   };
 
+  const handleSelectAll = () => {
+    if (selectedColors.length === colors.length) {
+      // all checked → uncheck all
+      onChange([]);
+    } else {
+      // select all
+      onChange(colors);
+    }
+  };
+
   return (
     <div className="color-palette">
-      {colors.map((color, index) => (
-        <label
-          key={index}
-          style={{
-            display: "inline-block",
-            margin: "5px",
-            cursor: "pointer",
-          }}
-        >
-          <input
-            type="checkbox"
-            onChange={(e) => handleChange(e, color)}
-          />
-          <span
+      <button
+        type="button"
+        className="btn btn-sm btn-secondary mb-2"
+        onClick={handleSelectAll}
+      >
+        {selectedColors.length === colors.length
+          ? "uncheck all"
+          : "check all"}
+      </button>
+
+      <div>
+        {colors.map((color, index) => (
+          <label
+            key={index}
             style={{
               display: "inline-block",
-              width: "20px",
-              height: "20px",
-              backgroundColor: `rgb(${color.join(",")})`,
-              marginLeft: "5px",
-              border: "1px solid #ccc",
+              margin: "5px",
+              cursor: "pointer",
             }}
-          ></span>
-        </label>
-      ))}
+          >
+            <input
+              type="checkbox"
+              checked={selectedColors.some(
+                (c) => c.toString() === color.toString()
+              )}
+              onChange={(e) => handleChange(e, color)}
+            />
+            <span
+              style={{
+                display: "inline-block",
+                width: "42px",
+                height: "42px",
+                backgroundColor: `rgb(${color.join(",")})`,
+                marginLeft: "5px",
+                border: "1px solid #ccc",
+              }}
+            ></span>
+          </label>
+        ))}
+      </div>
     </div>
   );
 }

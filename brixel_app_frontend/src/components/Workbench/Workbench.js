@@ -48,20 +48,32 @@ function Workbench({ colors }) {
   };
 
   return (
-    <div className="workbench">
-      <input type="file" accept="image/*" onChange={handleFileChange} />
+  <div className="workbench d-flex flex-column align-items-center">
+    <label className="btn btn-secondary mb-3">
+      Select image
+      <input
+        type="file"
+        accept="image/*"
+        onChange={handleFileChange}
+        style={{ display: "none" }}
+      />
+    </label>
 
-      <img ref={imgRef} alt="source" style={{ display: "none" }} />
+  <img ref={imgRef} alt="source" style={{ display: "none" }} />
 
-      <canvas ref={canvasRef} width={300} height={300}></canvas>
+    <canvas ref={canvasRef} width={300} height={300}></canvas>
 
-      <ColorPalette colors={colors} onChange={setSelectedColors} />
+    <ColorPalette
+      colors={colors}
+      selectedColors={selectedColors}
+      onChange={setSelectedColors}
+    />
 
-      <button className="btn btn-primary mt-3" onClick={handleSavePNG}>
-        Save PNG
-      </button>
-    </div>
-  );
+    <button className="btn btn-primary mt-3" onClick={handleSavePNG}>
+      Save as PNG
+    </button>
+  </div>
+);
 }
 
 export default Workbench;
