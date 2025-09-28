@@ -1,10 +1,15 @@
+import colors from "../lib/pallete";
+import Workbench from "../components/Workbench/Workbench";
 
-function Workbench () {
+console.log("colors:", colors);
 
- return(
-     
-     <h1>workbench</h1>
- )
+function WorkbenchPage() {
+  return (
+    <div>
+      <h1>Workbench Page</h1>
+      <Workbench colors={colors} />
+    </div>
+  );
 }
 
-export default Workbench;
+export default WorkbenchPage;
