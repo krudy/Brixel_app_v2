@@ -33,6 +33,24 @@ function Workbench({ colors }) {
     };
   };
 
+  const handleAnalyze = async () => {
+  if (!canvasRef.current) return;
+
+  // Konwertujemy canvas na Blob
+  canvasRef.current.toBlob(async (blob) => {
+    const formData = new FormData();
+    formData.append("image", blob, "pixel-art.png");
+
+    const res = await fetch("http://localhost:9999/analyze", {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await res.json();
+    console.log("Wynik analizy:", data);
+  }, "image/png");
+};
+
   useEffect(() => {
     if (imgRef.current?.src) {
       processImage();
@@ -48,32 +66,37 @@ function Workbench({ colors }) {
   };
 
   return (
-  <div className="workbench d-flex flex-column align-items-center">
-    <label className="btn btn-secondary mb-3">
-      Select image
-      <input
-        type="file"
-        accept="image/*"
-        onChange={handleFileChange}
-        style={{ display: "none" }}
+    <div className="workbench d-flex flex-column align-items-center">
+      <label className="btn btn-secondary mb-3">
+        Select image
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleFileChange}
+          style={{ display: "none" }}
+        />
+      </label>
+
+      <img ref={imgRef} alt="source" style={{ display: "none" }} />
+
+      <canvas ref={canvasRef} width={300} height={300}></canvas>
+
+      <ColorPalette
+        colors={colors}
+        selectedColors={selectedColors}
+        onChange={setSelectedColors}
       />
-    </label>
 
-  <img ref={imgRef} alt="source" style={{ display: "none" }} />
+      <button className="btn btn-primary mt-3" onClick={handleSavePNG}>
+        Save as PNG
+      </button>
 
-    <canvas ref={canvasRef} width={300} height={300}></canvas>
+      <button className="btn btn-info mt-3" onClick={handleAnalyze}>
+        Analyze Colors
+      </button>
 
-    <ColorPalette
-      colors={colors}
-      selectedColors={selectedColors}
-      onChange={setSelectedColors}
-    />
-
-    <button className="btn btn-primary mt-3" onClick={handleSavePNG}>
-      Save as PNG
-    </button>
-  </div>
-);
+    </div>
+  );
 }
 
 export default Workbench;
