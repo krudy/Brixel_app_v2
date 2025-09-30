@@ -4,6 +4,7 @@ import ColorPalette from "../ColorPalette/ColorPalette";
 
 function Workbench({ colors }) {
   const [selectedColors, setSelectedColors] = useState([]);
+  const [analysisResult, setAnalysisResult] = useState(null);
   const imgRef = useRef(null);
   const canvasRef = useRef(null);
 
@@ -34,22 +35,21 @@ function Workbench({ colors }) {
   };
 
   const handleAnalyze = async () => {
-  if (!canvasRef.current) return;
+    if (!canvasRef.current) return;
 
-  // Konwertujemy canvas na Blob
-  canvasRef.current.toBlob(async (blob) => {
-    const formData = new FormData();
-    formData.append("image", blob, "pixel-art.png");
+    canvasRef.current.toBlob(async (blob) => {
+      const formData = new FormData();
+      formData.append("image", blob, "pixel-art.png");
 
-    const res = await fetch("http://localhost:9999/api/analyze", {
-      method: "POST",
-      body: formData,
-    });
+      const res = await fetch("http://localhost:9999/api/analyze", {
+        method: "POST",
+        body: formData,
+      });
 
-    const data = await res.json();
-    console.log("Wynik analizy:", data);
-  }, "image/png");
-};
+      const data = await res.json();
+      setAnalysisResult(data); 
+    }, "image/png");
+  };
 
   useEffect(() => {
     if (imgRef.current?.src) {
@@ -95,6 +95,41 @@ function Workbench({ colors }) {
         Analyze Colors
       </button>
 
+      
+      {analysisResult && (
+        <table className="table table-bordered table-sm mt-3">
+          <thead>
+            <tr>
+              <th>Color (RGB)</th>
+              <th>Count</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Object.entries(analysisResult.colors).map(([rgb, count], index) => {
+              const rgbString = Array.isArray(rgb) ? rgb.join(",") : rgb;
+
+              return (
+                <tr key={index}>
+                  <td>
+                    <div
+                      style={{
+                        width: "40px",
+                        height: "20px",
+                        backgroundColor: `rgb(${rgbString})`,
+                        display: "inline-block",
+                        marginRight: "10px",
+                        border: "1px solid #ccc",
+                      }}
+                    ></div>
+                    {rgbString}
+                  </td>
+                  <td>{count}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 }
