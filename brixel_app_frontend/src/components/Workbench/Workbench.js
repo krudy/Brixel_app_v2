@@ -41,7 +41,7 @@ function Workbench({ colors }) {
     const formData = new FormData();
     formData.append("image", blob, "pixel-art.png");
 
-    const res = await fetch("http://localhost:9999/analyze", {
+    const res = await fetch("http://localhost:9999/api/analyze", {
       method: "POST",
       body: formData,
     });
