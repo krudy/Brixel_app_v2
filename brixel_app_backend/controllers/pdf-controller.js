@@ -48,11 +48,16 @@ const generatePixelPDF = async (req, res) => {
         const b = data[idx + 2];
         const a = data[idx + 3] / 255;
 
+        // zamiana na hex
+        const hex = `#${((1 << 24) + (r << 16) + (g << 8) + b)
+          .toString(16)
+          .slice(1)}`;
+
         const posX = 50 + col * step;
         const posY = 50 + row * step;
 
         doc.circle(posX, posY, circleRadius)
-          .fillColor(`rgba(${r},${g},${b},${a})`)
+          .fillColor(hex)
           .fill();
 
         col++;
