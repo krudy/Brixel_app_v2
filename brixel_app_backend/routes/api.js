@@ -11,4 +11,7 @@ router.get('/profile', UserController.profile);
 // Image analyze routes
 router.use(require('./analyzeRoutes'));
 
+// Pixel PDF routes
+router.use(require('./pdfRoutes'));
+
 module.exports = router;
