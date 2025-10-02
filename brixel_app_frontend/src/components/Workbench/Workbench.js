@@ -47,9 +47,41 @@ function Workbench({ colors }) {
       });
 
       const data = await res.json();
-      setAnalysisResult(data); 
+      setAnalysisResult(data);
     }, "image/png");
   };
+
+  const handleGeneratePDF = async () => {
+    if (!canvasRef.current) return;
+
+    canvasRef.current.toBlob(async (blob) => {
+      const formData = new FormData();
+      formData.append("image", blob, "pixel-art.png");
+
+      const res = await fetch("http://localhost:9999/api/pixel-pdf", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!res.ok) {
+        alert("Error generating PDF");
+        return;
+      }
+
+      
+      const pdfBlob = await res.blob();
+      const url = window.URL.createObjectURL(pdfBlob);
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "brixel-pixel-art.pdf";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    }, "image/png");
+  };
+
 
   useEffect(() => {
     if (imgRef.current?.src) {
@@ -95,7 +127,11 @@ function Workbench({ colors }) {
         Analyze Colors
       </button>
 
-      
+      <button className="btn btn-success mt-3" onClick={handleGeneratePDF}>
+        Generate PDF
+      </button>
+
+
       {analysisResult && (
         <table className="table table-bordered table-sm mt-3">
           <thead>
