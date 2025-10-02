@@ -3,6 +3,8 @@ import PixelArtProcessor from "../../lib/pixelArtProcessor";
 import ColorPalette from "../ColorPalette/ColorPalette";
 
 function Workbench({ colors }) {
+  const [pixelWidth, setPixelWidth] = useState(100);
+  const [pixelHeight, setPixelHeight] = useState(100);
   const [selectedColors, setSelectedColors] = useState([]);
   const [analysisResult, setAnalysisResult] = useState(null);
   const imgRef = useRef(null);
@@ -15,12 +17,12 @@ function Workbench({ colors }) {
       sourceImage: imgRef.current,
       targetCanvas: canvasRef.current,
       colorPalette: selectedColors,
-      maxCanvasHeight: 300,
-      maxCanvasWidth: 300,
+      maxCanvasHeight: pixelHeight,
+      maxCanvasWidth: pixelWidth,
     });
 
     px.renderImage().pixelateImage().convertToPalette().resizeCanvasImage();
-  }, [selectedColors]);
+  }, [selectedColors, pixelWidth, pixelHeight]);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -68,7 +70,7 @@ function Workbench({ colors }) {
         return;
       }
 
-      
+
       const pdfBlob = await res.blob();
       const url = window.URL.createObjectURL(pdfBlob);
 
@@ -118,6 +120,31 @@ function Workbench({ colors }) {
         selectedColors={selectedColors}
         onChange={setSelectedColors}
       />
+
+      <div className="d-flex gap-2 mb-3">
+        <div>
+          <label>Width (px)</label>
+          <input
+            type="number"
+            min="1"
+            value={pixelWidth}
+            onChange={(e) => setPixelWidth(Number(e.target.value))}
+            className="form-control"
+            style={{ width: "100px" }}
+          />
+        </div>
+        <div>
+          <label>Height (px)</label>
+          <input
+            type="number"
+            min="1"
+            value={pixelHeight}
+            onChange={(e) => setPixelHeight(Number(e.target.value))}
+            className="form-control"
+            style={{ width: "100px" }}
+          />
+        </div>
+      </div>
 
       <button className="btn btn-primary mt-3" onClick={handleSavePNG}>
         Save as PNG
