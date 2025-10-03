@@ -1,16 +1,14 @@
 const PDFDocument = require("pdfkit");
 const sharp = require("sharp");
 
-/**
- * Tworzy PDF z obrazem w formie kółek 16x24 na stronę.
- */
+
 const generatePixelPDF = async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).send("No image uploaded");
     }
 
-    // odczytaj obraz jako dane RGBA
+   
     const { data, info } = await sharp(req.file.path)
       .raw()
       .ensureAlpha()
@@ -18,7 +16,7 @@ const generatePixelPDF = async (req, res) => {
 
     const { width, height } = info;
 
-    // PDF setup
+ 
     const doc = new PDFDocument({
       size: "A4",
       margin: 20,
@@ -48,7 +46,7 @@ const generatePixelPDF = async (req, res) => {
         const b = data[idx + 2];
         const a = data[idx + 3] / 255;
 
-        // zamiana na hex
+       
         const hex = `#${((1 << 24) + (r << 16) + (g << 8) + b)
           .toString(16)
           .slice(1)}`;
