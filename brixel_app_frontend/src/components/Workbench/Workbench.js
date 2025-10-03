@@ -165,10 +165,12 @@ function Workbench({ colors }) {
             <tr>
               <th>Color (RGB)</th>
               <th>Count</th>
+              <th>Average LEGO Price ($)</th>
             </tr>
           </thead>
           <tbody>
-            {Object.entries(analysisResult.colors).map(([rgb, count], index) => {
+            {Object.entries(analysisResult.colors).map(([rgb, data], index) => {
+
               const rgbString = Array.isArray(rgb) ? rgb.join(",") : rgb;
 
               return (
@@ -184,9 +186,13 @@ function Workbench({ colors }) {
                         border: "1px solid #ccc",
                       }}
                     ></div>
-                    {rgbString}
+                    <span>{rgbString}</span>
                   </td>
-                  <td>{count}</td>
+                  <td>{data.count}</td>
+                  {console.log(data.avgPrice)}
+                  <td>
+                    ${Number(data.avgPrice).toFixed(2)}
+                  </td>
                 </tr>
               );
             })}
