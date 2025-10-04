@@ -1,15 +1,17 @@
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import styles from './Menu.module.css'
+import logo from "../../assets/img/Brixel_logo.png"
 
 function Menu() {
   const { token, logout } = useContext(AuthContext);
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark mt-1">
+    <nav className={`${styles.navbar} navbar navbar-expand-lg mt-1`}>
       <div className="container">
-        <Link className="navbar-brand" to="/">
-          BrixelApp
+        <Link className={`${styles.navbarBrand} d-flex align-items-center`} to="/">
+          <img className={styles.img} src={logo} alt="BrixelApp Logo" />
         </Link>
         <button
           className="navbar-toggler"
@@ -25,9 +27,9 @@ function Menu() {
 
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
-            
+
             <li className="nav-item">
-              <Link className="nav-link" to="/">
+              <Link className={`${styles.navLink} nav-link`} to="/">
                 Home
               </Link>
             </li>
@@ -35,30 +37,30 @@ function Menu() {
             {!token ? (
               <>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/login">
+                  <Link className={`${styles.navLink} nav-link`} to="/login">
                     Login
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/register">
+                  <Link className={`${styles.navLink} nav-link`} to="/register">
                     Register
                   </Link>
                 </li>
               </>
             ) : (
               <>
-               <li className="nav-item">
-                  <Link className="nav-link" to="/workbench">
+                <li className="nav-item">
+                  <Link className={`${styles.navLink} nav-link`} to="/workbench">
                     Workbench
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/profile">
+                  <Link className={`${styles.navLink} nav-link`} to="/profile">
                     Profile
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <button className="btn btn-link nav-link" onClick={logout}>
+                  <button className={`${styles.navLink} btn btn-link nav-link`} onClick={logout}>
                     Logout
                   </button>
                 </li>
