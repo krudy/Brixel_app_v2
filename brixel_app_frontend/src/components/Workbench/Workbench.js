@@ -1,45 +1,30 @@
-import { useEffect, useRef, useState, useCallback } from "react";
-import PixelArtProcessor from "../../lib/pixelArtProcessor";
+import { useState } from "react";
+import ImageUploader from "../ImageUploader/ImageUploader";
+import PixelCanvas from "../PixelCanvas/PixelCanvas";
+import PixelDimensions from "../PixelDimensions/PixelDimensions";
 import ColorPalette from "../ColorPalette/ColorPalette";
+import AnalysisTable from "../AnalysisTable/AnalysisTable";
 
-function Workbench({ colors }) {
+export default function Workbench({ colors }) {
+  const [img, setImg] = useState(null);
   const [pixelWidth, setPixelWidth] = useState(300);
   const [pixelHeight, setPixelHeight] = useState(300);
   const [selectedColors, setSelectedColors] = useState([]);
+  const [canvas, setCanvas] = useState(null);
   const [analysisResult, setAnalysisResult] = useState(null);
-  const imgRef = useRef(null);
-  const canvasRef = useRef(null);
 
-  const processImage = useCallback(() => {
-    if (!imgRef.current || !canvasRef.current || selectedColors.length === 0) return;
-
-    const px = new PixelArtProcessor({
-      sourceImage: imgRef.current,
-      targetCanvas: canvasRef.current,
-      colorPalette: selectedColors,
-      maxCanvasHeight: pixelHeight,
-      maxCanvasWidth: pixelWidth,
-    });
-
-    px.renderImage().pixelateImage().convertToPalette().resizeCanvasImage();
-  }, [selectedColors, pixelWidth, pixelHeight]);
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const img = imgRef.current;
-    img.src = URL.createObjectURL(file);
-
-    img.onload = () => {
-      processImage();
-    };
+  const handleSavePNG = () => {
+    if (!canvas) return;
+    const link = document.createElement("a");
+    link.download = "pixel-art.png";
+    link.href = canvas.toDataURL("image/png");
+    link.click();
   };
 
   const handleAnalyze = async () => {
-    if (!canvasRef.current) return;
+    if (!canvas) return;
 
-    canvasRef.current.toBlob(async (blob) => {
+    canvas.toBlob(async (blob) => {
       const formData = new FormData();
       formData.append("image", blob, "pixel-art.png");
 
@@ -54,9 +39,9 @@ function Workbench({ colors }) {
   };
 
   const handleGeneratePDF = async () => {
-    if (!canvasRef.current) return;
+    if (!canvas) return;
 
-    canvasRef.current.toBlob(async (blob) => {
+    canvas.toBlob(async (blob) => {
       const formData = new FormData();
       formData.append("image", blob, "pixel-art.png");
 
@@ -69,7 +54,6 @@ function Workbench({ colors }) {
         alert("Error generating PDF");
         return;
       }
-
 
       const pdfBlob = await res.blob();
       const url = window.URL.createObjectURL(pdfBlob);
@@ -84,36 +68,17 @@ function Workbench({ colors }) {
     }, "image/png");
   };
 
-
-  useEffect(() => {
-    if (imgRef.current?.src) {
-      processImage();
-    }
-  }, [selectedColors, processImage]);
-
-  const handleSavePNG = () => {
-    if (!canvasRef.current) return;
-    const link = document.createElement("a");
-    link.download = "pixel-art.png";
-    link.href = canvasRef.current.toDataURL("image/png");
-    link.click();
-  };
-
   return (
     <div className="workbench d-flex flex-column align-items-center">
-      <label className="btn btn-secondary mb-3">
-        Select image
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleFileChange}
-          style={{ display: "none" }}
-        />
-      </label>
+      <ImageUploader onImageLoad={setImg} />
 
-      <img ref={imgRef} alt="source" style={{ display: "none" }} />
-
-      <canvas ref={canvasRef} width={300} height={300}></canvas>
+      <PixelCanvas
+        img={img}
+        selectedColors={selectedColors}
+        width={pixelWidth}
+        height={pixelHeight}
+        onCanvasReady={setCanvas}
+      />
 
       <ColorPalette
         colors={colors}
@@ -121,86 +86,26 @@ function Workbench({ colors }) {
         onChange={setSelectedColors}
       />
 
-      <div className="d-flex gap-2 mb-3">
-        <div>
-          <label>Width (px)</label>
-          <input
-            type="number"
-            min="1"
-            value={pixelWidth}
-            onChange={(e) => setPixelWidth(Number(e.target.value))}
-            className="form-control"
-            style={{ width: "100px" }}
-          />
-        </div>
-        <div>
-          <label>Height (px)</label>
-          <input
-            type="number"
-            min="1"
-            value={pixelHeight}
-            onChange={(e) => setPixelHeight(Number(e.target.value))}
-            className="form-control"
-            style={{ width: "100px" }}
-          />
-        </div>
+      <PixelDimensions
+        width={pixelWidth}
+        height={pixelHeight}
+        onWidthChange={setPixelWidth}
+        onHeightChange={setPixelHeight}
+      />
+
+      <div className="d-flex gap-2 mt-3">
+        <button className="btn btn-primary" onClick={handleSavePNG}>
+          Save as PNG
+        </button>
+        <button className="btn btn-info" onClick={handleAnalyze}>
+          Analyze Colors
+        </button>
+        <button className="btn btn-success" onClick={handleGeneratePDF}>
+          Generate PDF
+        </button>
       </div>
 
-      <button className="btn btn-primary mt-3" onClick={handleSavePNG}>
-        Save as PNG
-      </button>
-
-      <button className="btn btn-info mt-3" onClick={handleAnalyze}>
-        Analyze Colors
-      </button>
-
-      <button className="btn btn-success mt-3" onClick={handleGeneratePDF}>
-        Generate PDF
-      </button>
-
-
-      {analysisResult && (
-        <table className="table table-bordered table-sm mt-3">
-          <thead>
-            <tr>
-              <th>Color (RGB)</th>
-              <th>Count</th>
-              <th>Average LEGO Price ($)</th>
-            </tr>
-          </thead>
-          <tbody>
-            {Object.entries(analysisResult.colors).map(([rgb, data], index) => {
-
-              const rgbString = Array.isArray(rgb) ? rgb.join(",") : rgb;
-
-              return (
-                <tr key={index}>
-                  <td>
-                    <div
-                      style={{
-                        width: "40px",
-                        height: "20px",
-                        backgroundColor: `rgb(${rgbString})`,
-                        display: "inline-block",
-                        marginRight: "10px",
-                        border: "1px solid #ccc",
-                      }}
-                    ></div>
-                    <span>{rgbString}</span>
-                  </td>
-                  <td>{data.count}</td>
-                  {console.log(data.avgPrice)}
-                  <td>
-                    ${Number(data.avgPrice).toFixed(2)}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      )}
+      <AnalysisTable analysisResult={analysisResult} />
     </div>
   );
 }
-
-export default Workbench;
