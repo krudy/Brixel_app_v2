@@ -1,28 +1,45 @@
 import { useRef } from "react";
 
 export default function ImageUploader({ onImageLoad }) {
-  const imgRef = useRef(null);
+  const fileInputRef = useRef(null);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    imgRef.current.src = URL.createObjectURL(file);
-    imgRef.current.onload = () => onImageLoad(imgRef.current);
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.src = url;
+    img.onload = () => onImageLoad(img);
+  };
+
+  const handleClick = () => {
+    fileInputRef.current.click();
   };
 
   return (
-    <>
-      <label className="btn btn-secondary mb-3">
-        Select image
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleFileChange}
-          style={{ display: "none" }}
-        />
-      </label>
-      <img ref={imgRef} alt="source" style={{ display: "none" }} />
-    </>
+    <div
+      onClick={handleClick}
+      style={{
+        cursor: "pointer",
+        border: "2px dashed #aaa",
+        borderRadius: "8px",
+        width: "300px",
+        height: "300px",
+        display: "none",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <span style={{ color: "#777" }}>Click canvas to select image</span>
+
+      <input
+        type="file"
+        accept="image/*"
+        ref={fileInputRef}
+        onChange={handleFileChange}
+        style={{ display: "none" }}
+      />
+    </div>
   );
 }

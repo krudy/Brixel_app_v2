@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import PixelArtProcessor from "../../lib/pixelArtProcessor";
 
-export default function PixelCanvas({ img, selectedColors, width, height, onCanvasReady }) {
+export default function PixelCanvas({ img, selectedColors, width, height, onCanvasReady, onSelectImage }) {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -20,5 +20,18 @@ export default function PixelCanvas({ img, selectedColors, width, height, onCanv
     if (onCanvasReady) onCanvasReady(canvasRef.current);
   }, [img, selectedColors, width, height, onCanvasReady]);
 
-  return <canvas ref={canvasRef} width={width} height={height}></canvas>;
+  return (
+    <canvas
+      ref={canvasRef}
+      width={width}
+      height={height}
+      onClick={onSelectImage}
+      style={{
+        marginTop: "15px",
+        border: "2px dashed #orange",
+        borderRadius: "8px",
+        cursor: "pointer",
+      }}
+    />
+  );
 }

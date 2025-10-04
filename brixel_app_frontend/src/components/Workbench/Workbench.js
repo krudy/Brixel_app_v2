@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import ImageUploader from "../ImageUploader/ImageUploader";
 import PixelCanvas from "../PixelCanvas/PixelCanvas";
 import PixelDimensions from "../PixelDimensions/PixelDimensions";
 import ColorPalette from "../ColorPalette/ColorPalette";
 import AnalysisTable from "../AnalysisTable/AnalysisTable";
+import styles from './Workbench.module.css'
 
 export default function Workbench({ colors }) {
   const [img, setImg] = useState(null);
@@ -12,6 +13,8 @@ export default function Workbench({ colors }) {
   const [selectedColors, setSelectedColors] = useState([]);
   const [canvas, setCanvas] = useState(null);
   const [analysisResult, setAnalysisResult] = useState(null);
+
+  const fileInputRef = useRef(null);
 
   const handleSavePNG = () => {
     if (!canvas) return;
@@ -36,6 +39,16 @@ export default function Workbench({ colors }) {
       const data = await res.json();
       setAnalysisResult(data);
     }, "image/png");
+  };
+
+    const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const url = URL.createObjectURL(file);
+    const image = new Image();
+    image.src = url;
+    image.onload = () => setImg(image);
   };
 
   const handleGeneratePDF = async () => {
@@ -70,17 +83,27 @@ export default function Workbench({ colors }) {
 
   return (
     <div className="workbench d-flex flex-column align-items-center">
-      <ImageUploader onImageLoad={setImg} />
+      <ImageUploader onImageLoad={setImg} style={{ display: "none" }}  />
 
-      <PixelCanvas
+       <PixelCanvas
         img={img}
         selectedColors={selectedColors}
         width={pixelWidth}
         height={pixelHeight}
         onCanvasReady={setCanvas}
+        onSelectImage={() => fileInputRef.current.click()}
+      />
+
+       <input
+        type="file"
+        accept="image/*"
+        ref={fileInputRef}
+        onChange={handleFileChange}
+        style={{ display: "none" }}
       />
 
       <ColorPalette
+        className="colorPallete"
         colors={colors}
         selectedColors={selectedColors}
         onChange={setSelectedColors}
