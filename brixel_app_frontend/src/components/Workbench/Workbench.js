@@ -3,8 +3,8 @@ import PixelArtProcessor from "../../lib/pixelArtProcessor";
 import ColorPalette from "../ColorPalette/ColorPalette";
 
 function Workbench({ colors }) {
-  const [pixelWidth, setPixelWidth] = useState(100);
-  const [pixelHeight, setPixelHeight] = useState(100);
+  const [pixelWidth, setPixelWidth] = useState(300);
+  const [pixelHeight, setPixelHeight] = useState(300);
   const [selectedColors, setSelectedColors] = useState([]);
   const [analysisResult, setAnalysisResult] = useState(null);
   const imgRef = useRef(null);

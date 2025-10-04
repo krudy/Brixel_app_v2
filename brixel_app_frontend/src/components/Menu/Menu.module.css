@@ -1,16 +1,27 @@
-.menu{
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    text-align: left;
+.img {
+  display: block;         
+  margin: 0 !important;   
+  padding: 0 !important;  
+  height: 60px;           
 }
 
-.menuItem{
-    display: inline-block;
-    margin-right: 5px;
-} 
-
-.menuContainer{
-    border: 1px solid #cdcdcd;
-    margin: 10px 0;
+.img:hover{
+     transform: scale(1.1); 
 }
+
+.navbar {
+  background: linear-gradient(to right, white, orange);
+}
+
+.navLink {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #333 !important;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.navLink:hover {
+  color: #ff6600 !important; 
+  transform: scale(1.05);   
+}
+
