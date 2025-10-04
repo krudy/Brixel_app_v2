@@ -35,7 +35,7 @@ export default function PixelCanvas({
         width={width}
         height={height}
         onClick={onSelectImage}
-        className={styles.canvas}
+        className={`${styles.canvas} ${img ? styles.canvasLoaded : ""}`}
       />
 
       {!img && (

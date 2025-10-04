@@ -8,6 +8,11 @@
   border: 2px dashed orange;
   border-radius: 8px;
   cursor: pointer;
+  transition: border 0.3s ease;
+}
+
+.canvasLoaded {
+  border: none;
 }
 
 .overlay {
