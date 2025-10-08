@@ -15,7 +15,7 @@ const oauth = OAuth({
   },
 });
 
-async function getAvgPrice(itemNo = "3001", colorId = 1) {
+async function getAvgPrice(itemNo = "3024", colorId = 1) {
   const url = `https://api.bricklink.com/api/store/v1/items/part/${itemNo}/price?color_id=${colorId}`;
   
   const requestData = { url, method: "GET" };
