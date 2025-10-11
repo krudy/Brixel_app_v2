@@ -4,7 +4,7 @@ import PixelCanvas from "../PixelCanvas/PixelCanvas";
 import PixelDimensions from "../PixelDimensions/PixelDimensions";
 import ColorPalette from "../ColorPalette/ColorPalette";
 import AnalysisTable from "../AnalysisTable/AnalysisTable";
-import styles from './Workbench.module.css'
+
 
 export default function Workbench({ colors }) {
   const [img, setImg] = useState(null);
@@ -83,6 +83,13 @@ export default function Workbench({ colors }) {
 
   return (
     <div className="workbench d-flex flex-column align-items-center">
+         <PixelDimensions
+        width={pixelWidth}
+        height={pixelHeight}
+        onWidthChange={setPixelWidth}
+        onHeightChange={setPixelHeight}
+        />
+
       <ImageUploader onImageLoad={setImg} style={{ display: "none" }}  />
 
        <PixelCanvas
@@ -109,12 +116,7 @@ export default function Workbench({ colors }) {
         onChange={setSelectedColors}
       />
 
-      <PixelDimensions
-        width={pixelWidth}
-        height={pixelHeight}
-        onWidthChange={setPixelWidth}
-        onHeightChange={setPixelHeight}
-      />
+   
 
       <div className="d-flex gap-2 mt-3">
         <button className="btn btn-primary" onClick={handleSavePNG}>

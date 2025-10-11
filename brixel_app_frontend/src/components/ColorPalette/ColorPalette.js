@@ -1,64 +1,70 @@
+import styles from './ColorPalette.module.css'
 
 function ColorPalette({ colors, selectedColors, onChange }) {
-  const handleChange = (e, color) => {
-    if (e.target.checked) {
+  const handleClick = (color) => {
+    const isSelected = selectedColors.some(
+      (c) => c.toString() === color.toString()
+    );
+    if (isSelected) {
+      onChange((prev) => prev.filter((c) => c.toString() !== color.toString()));
+    } else {
       onChange((prev) => [...prev, color]);
-    } else {
-      onChange((prev) => prev.filter((c) => c !== color));
-    }
-  };
-
-  const handleSelectAll = () => {
-    if (selectedColors.length === colors.length) {
-      // all checked → uncheck all
-      onChange([]);
-    } else {
-      // select all
-      onChange(colors);
     }
   };
 
   return (
-    <div className="color-palette">
+    <div className={styles.paletteWrapper}>
       <button
         type="button"
         className="btn btn-sm btn-secondary mb-2"
-        onClick={handleSelectAll}
+        onClick={() => {
+          if (selectedColors.length === colors.length) onChange([]);
+          else onChange(colors);
+        }}
       >
-        {selectedColors.length === colors.length
-          ? "uncheck all"
-          : "check all"}
+        {selectedColors.length === colors.length ? "Uncheck all" : "Check all"}
       </button>
 
-      <div>
-        {colors.map((color, index) => (
-          <label
-            key={index}
-            style={{
-              display: "inline-block",
-              margin: "5px",
-              cursor: "pointer",
-            }}
-          >
-            <input
-              type="checkbox"
-              checked={selectedColors.some(
-                (c) => c.toString() === color.toString()
-              )}
-              onChange={(e) => handleChange(e, color)}
-            />
-            <span
-              style={{
-                display: "inline-block",
-                width: "42px",
-                height: "42px",
-                backgroundColor: `rgb(${color.join(",")})`,
-                marginLeft: "5px",
-                border: "1px solid #ccc",
-              }}
-            ></span>
-          </label>
-        ))}
+      <div className={styles.paletteGrid}>
+        {colors.map((color, index) => {
+          const isSelected = selectedColors.some(
+            (c) => c.toString() === color.toString()
+          );
+          return (
+            <div
+              key={index}
+              className={`${styles.scene} ${isSelected ? styles.selected : ""}`}
+              onClick={() => handleClick(color)}
+            >
+              <div className={styles.cube}>
+                <div
+                  className={`${styles.face} ${styles.front}`}
+                  style={{ backgroundColor: `rgb(${color.join(",")})` }}
+                ></div>
+                <div
+                  className={`${styles.face} ${styles.back}`}
+                  style={{ backgroundColor: `rgb(${color.join(",")})` }}
+                ></div>
+                <div
+                  className={`${styles.face} ${styles.left}`}
+                  style={{ backgroundColor: `rgb(${color.join(",")})` }}
+                ></div>
+                <div
+                  className={`${styles.face} ${styles.right}`}
+                  style={{ backgroundColor: `rgb(${color.join(",")})` }}
+                ></div>
+                <div
+                  className={`${styles.face} ${styles.top}`}
+                  style={{ backgroundColor: `rgb(${color.join(",")})` }}
+                ></div>
+                <div
+                  className={`${styles.face} ${styles.bottom}`}
+                  style={{ backgroundColor: `rgb(${color.join(",")})` }}
+                ></div>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
