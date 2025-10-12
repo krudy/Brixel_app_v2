@@ -1,0 +1,57 @@
+.paletteWrapper {
+  text-align: center;
+}
+
+.paletteGrid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px; /* większy odstęp między sześcianami */
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+
+.scene {
+  width: 42px;
+  height: 42px;
+  perspective: 300px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.cube {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease, box-shadow 0.3s ease;
+}
+
+.face {
+  position: absolute;
+  width: 42px;
+  height: 42px;
+  border-radius: 6px; /* zaokrąglone krawędzie */
+  border: 1px solid color-mix(in srgb, currentColor 70%, black 30%);
+  backface-visibility: hidden;
+
+}
+
+.front { transform: translateZ(21.1px); }
+.back { transform: translateZ(-21.1px) rotateY(180deg); }
+.left { transform: translateX(-21.1px) rotateY(-90deg); }
+.right { transform: translateX(21.1px) rotateY(90deg); }
+.top { transform: translateY(-21.1px) rotateX(90deg); }
+.bottom { transform: translateY(21.1px) rotateX(-90deg); }
+
+/* Efekt po kliknięciu / najechaniu */
+.scene:hover .cube,
+.scene.selected .cube {
+  transform: rotateX(45deg) rotateY(45deg) scale(1.3);
+  z-index: 2;
+  box-shadow: none
+}
+
+.scene.selected {
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.6));
+}
