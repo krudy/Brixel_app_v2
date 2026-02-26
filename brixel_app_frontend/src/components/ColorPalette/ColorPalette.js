@@ -12,11 +12,12 @@ function ColorPalette({ colors, selectedColors, onChange }) {
     }
   };
 
-  return (
-    <div className={styles.paletteWrapper}>
+ return (
+  <div className={styles.paletteWrapper}>
+    <div className={styles.paletteContainer}>
       <button
         type="button"
-        className="btn btn-sm btn-secondary mb-2"
+        className="btn btn-sm btn-secondary"
         onClick={() => {
           if (selectedColors.length === colors.length) onChange([]);
           else onChange(colors);
@@ -33,7 +34,9 @@ function ColorPalette({ colors, selectedColors, onChange }) {
           return (
             <div
               key={index}
-              className={`${styles.scene} ${isSelected ? styles.selected : ""}`}
+              className={`${styles.scene} ${
+                isSelected ? styles.selected : ""
+              }`}
               onClick={() => handleClick(color)}
             >
               <div className={styles.cube}>
@@ -67,7 +70,8 @@ function ColorPalette({ colors, selectedColors, onChange }) {
         })}
       </div>
     </div>
-  );
+  </div>
+);
 }
 
 export default ColorPalette;

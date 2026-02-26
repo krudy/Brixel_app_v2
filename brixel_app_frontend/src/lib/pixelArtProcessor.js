@@ -1,10 +1,10 @@
 class PixelArtProcessor {
   constructor(options = {}) {
-      // Target canvas element
+     
       this.targetCanvas = options.targetCanvas || document.getElementById("pixelArtCanvas");
-      // Source image element
+      
       this.sourceImage = options.sourceImage || document.getElementById("pixelArtImage");
-      // Scaling factor (0 to 50)
+     
       this.pixelScale =
           options.pixelScale && options.pixelScale > 0 && options.pixelScale <= 50
               ? options.pixelScale * 0.01
@@ -13,7 +13,7 @@ class PixelArtProcessor {
       this.maxCanvasHeight = options.maxCanvasHeight;
       this.maxCanvasWidth = options.maxCanvasWidth;
       this.canvasContext = this.targetCanvas.getContext("2d");
-      // Stores the color statistics after processing
+     
       this.colorStatistics = {};
   }
 
