@@ -2,13 +2,20 @@
   text-align: center;
 }
 
+.paletteContainer {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-top: 30px;
+}
+
 .paletteGrid {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 14px; /* większy odstęp między sześcianami */
   margin-bottom: 20px;
-  margin-top: 10px;
+  
 }
 
 .scene {
@@ -54,4 +61,13 @@
 
 .scene.selected {
   filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.6));
+}
+
+.paletteContainer button {
+  white-space: nowrap;
+  height: calc(42px * 2 + 14px);
+  min-width: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

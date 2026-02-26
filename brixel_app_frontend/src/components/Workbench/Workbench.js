@@ -49,7 +49,7 @@ export default function Workbench({ colors }) {
     const image = new Image();
     image.src = url;
     image.onload = () => setImg(image);
-  };
+    };
 
   const handleGeneratePDF = async () => {
     if (!canvas) return;
