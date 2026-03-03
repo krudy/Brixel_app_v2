@@ -1,9 +1,19 @@
-# 🎨 LEGO Pixel Art Generator
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat&logo=node.js&logoColor=white)
+![Express](https://img.shields.io/badge/Express-000000?style=flat&logo=express&logoColor=white)
+![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=black)
+![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat&logo=mongodb&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
 
-A fullstack web application that converts images into LEGO-compatible pixel art, estimates real-world building cost based on market data, and generates step-by-step building instructions in PDF format.
+# 🎨 Fullstack Web Application for Image Processing and Data-Driven Instruction Generation
 
-This project was developed as an engineering thesis and demonstrates fullstack application architecture, image processing, authentication, REST API integration, and dynamic PDF generation.
 
+Developed as an engineering thesis project, this application demonstrates comprehensive fullstack development skills, including **image processing, REST API integration, user authentication, and dynamic PDF generation**. The system allows users to upload images, processes them into a simplified pixel representation suitable for modular reconstruction, estimates material requirements and costs based on real-world market data, and generates detailed step-by-step instructions in PDF format.
+
+## Key Technologies and Skills
+- **Languages & Frameworks:** JavaScript, Node.js, Express, React
+- **Database:** MongoDB
+- **API & Integration:** REST APIs, asynchronous processing
+- **Other Skills:** Image processing, dynamic PDF generation, user authentication
 ---
 
 # 🚀 Features
@@ -188,5 +198,55 @@ Validation is implemented on:
 ## 1️⃣ Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/lego-pixel-art-generator.git
-cd lego-pixel-art-generator
+git clone https://github.com/krudy/Brixel_app_v2.git
+```
+
+## 2️⃣ Backend Setup
+
+Navigate to the backend directory:
+
+```bash
+cd brixel_app_backend
+npm install
+```
+Create a `.env` file inside the `backend` folder:
+
+```env
+PORT=5000
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret_key
+
+BRICKLINK_CONSUMER_KEY=your_key
+BRICKLINK_CONSUMER_SECRET=your_secret
+BRICKLINK_TOKEN=your_token
+BRICKLINK_TOKEN_SECRET=your_token_secret
+```
+
+Start the backend server:
+
+```bash
+npm start
+```
+
+The server should now be running at: http://localhost:5000
+
+## 3️⃣ Frontend Setup
+
+Open a new terminal window and navigate to the frontend directory:
+
+```bash
+cd brixel_app_frontend
+npm install
+npm start
+```
+
+The application should now be running at: http://localhost:3000
+
+
+## 4️⃣ MongoDB Configuration
+
+Make sure that you have one of the following set up:
+
+- **Local MongoDB instance** running on your machine  
+  OR  
+- **MongoDB Atlas** (cloud database) and properly configured the `MONGO_URI` environment variable in your `.env` file:
