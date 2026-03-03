@@ -28,6 +28,7 @@ Developed as an engineering thesis project, this application demonstrates compre
 - Manual palette selection
 - Live pixel preview
 
+<img src="android.png" alt="Pixelization example screenshot" width="600"/>
 ---
 
 ## 💰 Cost Estimation Based on Market Data
@@ -49,6 +50,8 @@ The frontend displays:
 - Average price per piece
 - Estimated total cost
 
+<img src="bid.png" alt="cost analysis example screenshot" width="600"/>
+
 ---
 
 ## 📄 Automatic PDF Building Instructions
@@ -61,6 +64,7 @@ The application generates a downloadable PDF file containing:
 - Proper A4 formatting
 - Automatic file download in the browser
 
+<img src="pdf.png" alt="pdf instruction example screenshot" width="600"/>
 ---
 
 ## 🔐 Authentication System
