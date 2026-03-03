@@ -99,4 +99,94 @@ Architecture principles:
 - **ImageUploader**
 - **AnalysisTable**
 
-Image processing logic is encapsulated inside a dedicated:
+Image processing logic is encapsulated inside a dedicated: `PixelArtProcessor`
+
+## Backend
+
+Built with:
+
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
+- MVC architectural pattern
+- RESTful API design
+
+---
+
+# 🗄 Database
+
+The project uses:
+
+- MongoDB
+- Mongoose
+
+## User Model
+
+Fields:
+
+- `email` (unique, validated)
+- `password` (hashed)
+- `createdAt`
+
+Validation is implemented on:
+
+- Schema level (Mongoose validation)
+- Application logic level (custom email validator)
+
+---
+
+# 🧠 Core Algorithms
+
+## 🎨 Color Matching
+
+- Euclidean distance calculation in RGB color space
+- Selection of closest LEGO palette color
+
+## 🖼 Image Analysis
+
+- RGBA buffer iteration
+- RGB → LEGO color ID mapping
+- Aggregation of piece counts
+
+## 📄 PDF Rendering
+
+- Raw pixel buffer reading
+- Grid-based layout rendering
+- Centered drawing logic
+- Dynamic page generation
+
+---
+
+# 🛠 Tech Stack
+
+## Frontend
+
+- React
+- JavaScript (ES6+)
+- HTML5 Canvas API
+- Bootstrap
+- CSS Modules
+
+## Backend
+
+- Node.js
+- Express
+- MongoDB
+- Mongoose
+- bcryptjs
+- jsonwebtoken
+- sharp
+- pngjs
+- pdfkit
+- oauth-1.0a
+
+---
+
+# ⚙️ How to Run Locally
+
+## 1️⃣ Clone the Repository
+
+```bash
+git clone https://github.com/your-username/lego-pixel-art-generator.git
+cd lego-pixel-art-generator
